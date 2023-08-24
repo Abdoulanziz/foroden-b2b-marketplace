@@ -1,0 +1,258 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{% static 'favicon/apple-touch-icon.png' %}">
+
+    <link rel="stylesheet" href="{%  static 'css/table.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/_main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboards.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'icons/themify-icons.css' %}">
+    <link href="{% static 'icons/font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet"  type='text/css'>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{% static 'js/jquery-3.5.1.js' %}"></script>
+    <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="{% static 'js/tinymce/js/tinymce/tinymce.min.js' %}"></script>
+    <script src="{% static 'js/tinymce/js/tinymce/tinymce.min.js' %}"></script>
+
+    <script src="{% static 'js/bootstrap-datepicker.min.js' %}"></script>
+    <script src="{% static 'js/moment.min.js' %}"></script>
+
+    <script src="{% static 'js/client/dashabord/requests.js' %}"></script>
+    <script src="{% static 'js/microservices/requests.js' %}"></script>
+
+    <style>
+        .key-metric-summary {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px;
+        }
+
+        .key-metric {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .key-metric-icon {
+            width: 40px;
+            height: 40px;
+            /* background-color: #3498db; */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            margin-right: 10px;
+        }
+
+        .key-metric-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .key-metric-label {
+            font-size: 14px;
+            color: #666666;
+        }
+    </style>
+
+    <title></title>
+</head>
+
+<body>
+    <div id="notification-alert">
+        <span id="category"></span>
+        <p id="title"></p>
+    </div>
+    <div class="app-container container">
+        <div class="app-content flex">
+            <div class="sidebar cs-grid">
+                <div class="upper cs-grid" style="gap: 1rem;">
+                    <div class="sidebar-header cs-text-accent">
+                        <div class="cs-app-logo flex">
+                            <i class="fa fa-bars" id="menu-expander"></i>
+                            <span class="toggle-able" >CUSTOMER</span>
+                        </div>
+                    </div>
+                    <div class="cs-sidebar-body" style="inline-size: 200px;">
+                        <ul class="main-menu">
+                            <li class="link active">
+                                <a href="{% url 'customer_care:index' %}">
+                                    <span><img src="/static/graphics/home.png" alt=""></span>
+                                    <span class="text toggle-able">Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="link">
+                                <a href="{% url 'customer_care:metrics' %}">
+                                    <span><img src="/static/graphics/date.png" alt=""></span>
+                                    <span class="text toggle-able">Metrics Analysis</span>
+                                </a>
+                            </li>
+                            <li class="link">
+                                <a href="{% url 'customer_care:notifications' %}">
+                                    <span><img src="/static/graphics/bell.png" alt=""></span>
+                                    <span class="text toggle-able">Notifications</span>
+                                </a>
+                            </li>
+                            <li class="link">
+                                <a href="{% url 'customer_care:reports' %}">
+                                    <span><img src="/static/graphics/reports.svg" alt=""></span>
+                                    <span class="text toggle-able">All Reports</span>
+                                </a>
+                            </li>
+                            <li class="link">
+                                <a href="{% url 'customer_care:chats' %}">
+                                    <span><img src="/static/graphics/facebook-messenger.png" alt=""></span>
+                                    <span class="text toggle-able">Chats</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="main">
+                <div class="cs-navbar card cs-no-box-shadow">
+                    <div class="left">
+                        <h4>Good Morning Peter!</h4>
+                    </div>
+                    <div class="right">
+                        <nav style="justify-self: flex-end;">
+                            <ul class="nav-links cs-nav-links flex">
+                                <li class="icon flex">
+                                    <i class="ti-bell"></i>
+                                    <span class="count">10</span>
+                                </li>
+                                <div class="cs-text-accent">
+                                    <a href="#" class="flex">
+                                        <img src="{% static 'assets/imgs/resources/profiledefault.png' %}" alt="user_image"
+                                            class="avatar cs-avatar" id="toggle_cs_dropdown_menu" data-target="cs_dropdown_menu" >
+                                    </a>
+                                    <div class="cs-dropdown-menu hide" id="cs_dropdown_menu">
+                                        <ul class="cs-dropdown-items">
+                                            <li class="cs-dropdown-item"><i class="ti-link"></i> <a href="#">Visit Site</a></li>
+                                            <li class="cs-dropdown-item"><i class="ti-user"></i> <a href="#">Account Profile</a></li>
+                                            <li class="cs-dropdown-item"><i class="ti-user"></i> <a href="#">Business Profile</a></li>
+                                          
+                                            <li class="cs-dropdown-item footer"><a href="{% url 'auth_app:login' %}">Logout</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+                <div class="main-content" style="overflow-y: scroll;">
+                    <div class="notifications-section flex" style="background-color: rgb(226, 226, 224);">
+                        <h4 class="section-togglers" data-section="sec_00" style="padding-block: 1.2rem;">All Notifications</h4>
+                        <h4 class="section-togglers" data-section="sec_01" style="padding-block: 1.2rem;">Office</h4>
+                        <h4 class="section-togglers" data-section="sec_02" style="padding-block: 1.2rem;">Email</h4>
+                        <h4 class="section-togglers" data-section="sec_03" style="padding-block: 1.2rem;">System</h4>
+                    </div>
+                    <div class="notification-section inview" id="sec_00">
+                        <div class="notifications">
+                            <div class="notification flex">
+                                <img src="{% static 'assets/imgs/resources/profiledefault.png' %}" alt="" class="avatar">
+                                <div class="notification-content">
+                                    <h6 class="notification-title"><strong>Peter Kalanzi</strong> has opened a new ticket.</h6>
+                                    <span class="notification-time">5 min ago</span>
+                                    <div class="notification-actions">
+                                        <button>View Details</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="notification flex">
+                                <img src="{% static 'assets/imgs/resources/profiledefault.png' %}" alt="" class="avatar">
+                                <div class="notification-content">
+                                    <h6 class="notification-title"><strong>Hellen Joes</strong> ' request for quotation to Gellen Tech Suppliers has not been responded to.</h6>
+                                    <span class="notification-time">Yesterday</span>
+                                    <div class="notification-actions flex" style="justify-content: flex-start;align-items: center;gap:.4rem;">
+                                        <img src="{% static 'graphics/file.png' %}" alt="">
+                                        <div class="file-specs flex" style="flex-direction: column;align-items: flex-start;">
+                                            <span><strong>HP Commercial Photocopier Quotation.docx</strong></span>
+                                            <span>1.2 MB</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notification-section" id="sec_01">
+                        <div class="notifications">
+                        </div>
+                    </div>
+                    <div class="notification-section" id="sec_02">
+                        <div class="notifications">
+                        </div>
+                    </div>
+                    <div class="notification-section" id="sec_03">
+                        <div class="notifications">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'fullcalendar-6.1.8/dist/index.global.min.js' %}"></script>
+    <script src="{% static 'js/fullcalendar-6-custom-customer/fullcalendar.js' %}"></script>
+
+    <script src="{% static 'js/createChart.js' %}"></script>
+    <script>
+        const toggleDropdownMenu = document.querySelector("#toggle_cs_dropdown_menu");
+        toggleDropdownMenu.addEventListener("click", (event) => {
+            document.querySelector(`#${event.target.dataset.target}`).classList.toggle("hide");
+        });
+
+        document.querySelector(".app-content").classList.add("expanded");
+
+        document.addEventListener('DOMContentLoaded', ()=>{
+
+            const section_togglers = document.querySelectorAll(".section-togglers")
+            section_togglers.forEach(
+                activator => activator.addEventListener("click", () => {
+                    let sectionToShow = document.querySelector(`#${activator.dataset.section}`);
+
+                    section_togglers.forEach(section_toggler => {
+                        section_toggler.style.borderBlockEnd = "unset";
+                        section_toggler.style.color = "#929293";
+                    })
+                    activator.style.color = "#363637";
+                    activator.style.borderBlockEnd = "2px solid #363637";
+                    
+                    let openSections = document.querySelectorAll(".notification-section.inview");
+                    openSections.forEach(section => section.classList.remove("inview"));
+
+                    sectionToShow.classList.add("inview");
+                })
+            );
+
+
+
+        });
+    </script>
+</body>
+
+</html>
+
+
+
+

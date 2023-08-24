@@ -1,0 +1,380 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{% static 'favicon/apple-touch-icon.png' %}">
+
+    <link rel="stylesheet" href="{%  static 'css/table.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/_main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboards.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'icons/themify-icons.css' %}">
+    <link href="{% static 'icons/font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet"  type='text/css'>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{% static 'js/jquery-3.5.1.js' %}"></script>
+    <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="{% static 'js/tinymce/js/tinymce/tinymce.min.js' %}"></script>
+    <script src="{% static 'js/tinymce/js/tinymce/tinymce.min.js' %}"></script>
+
+    <script src="{% static 'js/bootstrap-datepicker.min.js' %}"></script>
+    <script src="{% static 'js/moment.min.js' %}"></script>
+
+    <script src="{% static 'js/client/dashabord/requests.js' %}"></script>
+    <script src="{% static 'js/microservices/requests.js' %}"></script>
+
+    <style>
+        .key-metric-summary {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px;
+        }
+
+        .key-metric {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .key-metric-icon {
+            width: 40px;
+            height: 40px;
+            /* background-color: #3498db; */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            margin-right: 10px;
+        }
+
+        .key-metric-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .key-metric-label {
+            font-size: 14px;
+            color: #666666;
+        }
+    </style>
+
+    <title></title>
+</head>
+
+<body>
+    <div id="notification-alert">
+        <span id="category"></span>
+        <p id="title"></p>
+    </div>
+    <div class="app-container container">
+        <div class="app-content flex">
+            <div class="sidebar cs-grid">
+                <div class="upper cs-grid" style="gap: 1rem;">
+                    <div class="sidebar-header cs-text-accent">
+                        <div class="cs-app-logo flex">
+                            <i class="fa fa-bars" id="menu-expander"></i>
+                            <span class="toggle-able" >CUSTOMER</span>
+                        </div>
+                    </div>
+                    <div class="cs-sidebar-body" style="inline-size: 200px;">
+                        <ul class="main-menu">
+                            <li class="link active">
+                                <a href="{% url 'customer_care:index' %}">
+                                    <span><img src="/static/graphics/home.png" alt=""></span>
+                                    <span class="text toggle-able">Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="link">
+                                <a href="{% url 'customer_care:metrics' %}">
+                                    <span><img src="/static/graphics/date.png" alt=""></span>
+                                    <span class="text toggle-able">Metrics Analysis</span>
+                                </a>
+                            </li>
+                            <li class="link">
+                                <a href="{% url 'customer_care:notifications' %}">
+                                    <span><img src="/static/graphics/bell.png" alt=""></span>
+                                    <span class="text toggle-able">Notifications</span>
+                                </a>
+                            </li>
+                            <li class="link">
+                                <a href="{% url 'customer_care:reports' %}">
+                                    <span><img src="/static/graphics/reports.svg" alt=""></span>
+                                    <span class="text toggle-able">All Reports</span>
+                                </a>
+                            </li>
+                            <li class="link">
+                                <a href="{% url 'customer_care:chats' %}">
+                                    <span><img src="/static/graphics/facebook-messenger.png" alt=""></span>
+                                    <span class="text toggle-able">Chats</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="main">
+                <div class="cs-navbar card cs-no-box-shadow">
+                    <div class="left">
+                        <h4>Good Morning Peter!</h4>
+                    </div>
+                    <div class="right">
+                        <nav style="justify-self: flex-end;">
+                            <ul class="nav-links cs-nav-links flex">
+                                <li class="icon flex">
+                                    <i class="ti-bell"></i>
+                                    <span class="count">10</span>
+                                </li>
+                                <div class="cs-text-accent">
+                                    <a href="#" class="flex">
+                                        <img src="{% static 'assets/imgs/resources/profiledefault.png' %}" alt="user_image"
+                                            class="avatar cs-avatar" id="toggle_cs_dropdown_menu" data-target="cs_dropdown_menu" >
+                                    </a>
+                                    <div class="cs-dropdown-menu hide" id="cs_dropdown_menu">
+                                        <ul class="cs-dropdown-items">
+                                            <li class="cs-dropdown-item"><i class="ti-link"></i> <a href="#">Visit Site</a></li>
+                                            <li class="cs-dropdown-item"><i class="ti-user"></i> <a href="#">Account Profile</a></li>
+                                            <li class="cs-dropdown-item"><i class="ti-user"></i> <a href="#">Business Profile</a></li>
+                                          
+                                            <li class="cs-dropdown-item footer"><a href="{% url 'auth_app:login' %}">Logout</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+                <div class="main-content" style="overflow-y: scroll;">
+                    <div class="cs-content-area cs-no-box-shadow" style="block-size: fit-content;">
+                        <div class="middle-content-area bordered outlined">
+                            <h3 class="title accented" style="color: #666666;">Key Metrics Summary</h3>
+                            <h4 class="sub-title">Activities you need to focus on to maintain buyer satisfaction</h4>
+                            <div class="cs-content flex" style="padding-block-end: .8rem;">
+                                <div class="card cs-no-box-shadow flex" style="background-color: #ffffff;">
+                                    <div class="key-metric">
+                                        <div class="key-metric-icon" style="background-color: #ecab08;border-radius: 6px;padding: 2rem;">
+                                          <i class="fa fa-users" style="background-color:transparent;color:#ffffff !important;"></i>
+                                        </div>
+                                        <div>
+                                          <div class="key-metric-value" id="suppliers">1,200</div>
+                                          <div class="key-metric-label">Active Suppliers</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card cs-no-box-shadow flex" style="background-color: #ffffff;">
+                                    <div class="key-metric">
+                                        <div class="key-metric-icon" style="background-color: #ecab08;border-radius: 6px;padding: 2rem;">
+                                          <i class="fa fa-shopping-cart" style="background-color:transparent;color:#ffffff !important;"></i>
+                                        </div>
+                                        <div>
+                                          <div class="key-metric-value" id="orders">5,300</div>
+                                          <div class="key-metric-label">Total Orders</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card cs-no-box-shadow flex" style="background-color: #ffffff;">
+                                    <div class="key-metric">
+                                        <div class="key-metric-icon" style="background-color: #ecab08;border-radius: 6px;padding: 2rem;">
+                                          <i class="fa fa-dollar" style="background-color:transparent;color:#ffffff !important;"></i>
+                                        </div>
+                                        <div>
+                                          <div class="key-metric-value" id="revenue">$2.5M</div>
+                                          <div class="key-metric-label">Total Revenue</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lower-content-area md-hidden bordered outlined">
+                            <h3 class="title accented" style="color: #666666;">Response Time Analytics</h3>
+                            <h4 class="sub-title">Lst update: 14 Aug 2023</h4>
+
+                            <div class="stats-summary-card cs-grid cs-bg-white elevated br-sm cs-overflow-hidden outlined" style="--gap: .8rem;padding: .5rem;">
+                                <div class="cs-grid cs-justify-between" style="--gap: 1rem;grid-template-columns: 1fr 1fr;">
+                                    <div id="request-selectors" class="selectors cs-flex cs-align-start" style="--gap: .5rem;">
+                                        <button style="padding: 0.25rem .75rem;" class="active btn act-btn br-sm outlined cs-text-md cs-text-secondary cs-bg-transparent cd-grid " id="day">Day</button>
+                                        <button style="padding: 0.25rem .75rem;" class="btn act-btn br-sm outlined cs-text-md cs-text-secondary cs-bg-transparent cd-grid " id="week">Week</button>
+                                        <button style="padding: 0.25rem .75rem;" class="btn act-btn br-sm outlined cs-text-md cs-text-secondary cs-bg-transparent cd-grid " id="month">Month</button>
+                                        <button style="padding: 0.25rem .75rem;" class="btn act-btn br-sm outlined cs-text-md cs-text-secondary cs-bg-transparent cd-grid " id="year">Year</button>
+                                    </div>
+                                </div>
+                                <h3 id="chart-1-title">Services</h3>
+                                <div style="display: grid;">
+                                    <canvas id="chart-1"></canvas>
+                                    <span class="cs-text-md cs-font-bold cs-text-secondary" style="color: var(--secondary-color);justify-self: center;">Duration</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'fullcalendar-6.1.8/dist/index.global.min.js' %}"></script>
+    <script src="{% static 'js/fullcalendar-6-custom-customer/fullcalendar.js' %}"></script>
+
+    <script src="{% static 'js/createChart.js' %}"></script>
+    <script>
+        const toggleDropdownMenu = document.querySelector("#toggle_cs_dropdown_menu");
+        toggleDropdownMenu.addEventListener("click", (event) => {
+            document.querySelector(`#${event.target.dataset.target}`).classList.toggle("hide");
+        });
+
+        document.querySelector(".app-content").classList.add("expanded");
+
+        document.addEventListener('DOMContentLoaded', ()=>{
+            let totalSuppliers = document.querySelector('#suppliers');
+            let totalOrders = document.querySelector('#orders');
+            let totalRevenue = document.querySelector('#revenue');
+            totalSuppliers.textContent = "1,200";
+            totalOrders.textContent = "5,300";
+            totalRevenue.textContent = "$2.5M";
+
+            let chartTitle1 = document.querySelector('#chart-1-title');
+            chartTitle1.textContent = "Day's Analytics";
+
+            let mChart1 = createChart('Durations',
+            'bar',
+            ['Morning', 'Afternoon', 'Eevening'],
+            [80, 100, 46],
+            'chart-1'
+            );
+
+            let mChart2 = createChart('Durations',
+            'line',
+            ['Morning', 'Afternoon', 'Eevening'],
+            [80000, 1000000, 460000],
+            'chart-2'
+            );
+            
+            
+            const actionBtns = document.querySelectorAll('.act-btn');
+            for(let i=0; i<actionBtns.length; i++){
+                actionBtns[i].addEventListener('click', e =>{
+                    actionBtns.forEach(btn => {
+                        if(btn.classList.contains('active')) btn.classList.remove('active');
+                    });
+
+                    actionBtns[i].classList.add('active');
+
+                    if(actionBtns[i].getAttribute('id') === "day"){
+                        totalSuppliers.textContent = "1,800";
+                        totalOrders.textContent = "9,300";
+                        totalRevenue.textContent = "$18.5M";
+
+                        chartTitle1.textContent = "Day's Analytics";
+
+                        mChart1.destroy();
+                        mChart1 = createChart('Durations',
+                        'bar',
+                        ['Morning', 'Afternoon', 'Eevening'],
+                        [80, 100, 46],
+                        'chart-1'
+                        );
+
+                        mChart2 = createChart('Durations',
+                        'line',
+                        ['Morning', 'Afternoon', 'Eevening'],
+                        [80000, 1000000, 460000],
+                        'chart-2'
+                        );
+                        
+                    }else if(actionBtns[i].getAttribute('id') === "week"){
+                        totalSuppliers.textContent = "6,000";
+                        totalOrders.textContent = "5,300";
+                        totalRevenue.textContent = "$40.5M";
+
+                        chartTitle1.textContent = "Week's Analytics";
+
+                        mChart1.destroy();
+                        mChart1 = createChart('Days',
+                        'bar',
+                        ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        [80, 100, 46, 39, 57, 25, 66],
+                        'chart-1'
+                        );
+
+                        mChart2 = createChart('Days',
+                        'line',
+                        ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        [80000, 1000000, 460000, 0, 5700000, 0, 0],
+                        'chart-2'
+                        );
+
+                    }else if(actionBtns[i].getAttribute('id') === "month"){
+                        totalSuppliers.textContent = "1,800";
+                        totalOrders.textContent = "5,100";
+                        totalRevenue.textContent = "$12.5M";
+
+                        chartTitle1.textContent = "Month's Analytics";
+
+                        mChart1.destroy();
+                        mChart1 = createChart('Weeks',
+                        'bar',
+                        ['Week1', 'Week2', 'Week3','Week4'],
+                        [80, 100, 46, 39],
+                        'chart-1'
+                        );
+
+                        mChart2 = createChart('Weeks',
+                        'line',
+                        ['Week1', 'Week2', 'Week3','Week4'],
+                        [80000, 1000000, 460000, 5700000],
+                        'chart-2'
+                        );
+
+                    }else if(actionBtns[i].getAttribute('id') === "year"){
+                        totalSuppliers.textContent = "14,200";
+                        totalOrders.textContent = "6,300";
+                        totalRevenue.textContent = "$24.5M";
+
+                        chartTitle1.textContent = "Year's Analytics";
+
+                        mChart1.destroy();
+                        mChart1 = createChart('Months',
+                        'bar',
+                        ['Quarter1', 'Quarter2', 'Quarter3'],
+                        [80, 46, 39],
+                        'chart-1'
+                        );
+
+                        mChart2 = createChart('Months',
+                        'line',
+                        ['Quarter1', 'Quarter2', 'Quarter3'],
+                        [80000, 1000000, 5700000],
+                        'chart-2'
+                        );
+                    }else{
+                        console.log("");
+                    }
+                });
+            }
+
+
+
+        });
+    </script>
+</body>
+
+</html>
+
+
+
+
