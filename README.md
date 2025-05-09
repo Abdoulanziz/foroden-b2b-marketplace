@@ -1,5 +1,5 @@
 # Foroden
-B2B platform
+B2B e-commerce platform with showrooms and other robust features
 
 
 ## Setup Django and Postgres
